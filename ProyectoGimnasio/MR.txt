@@ -1,0 +1,45 @@
+CLIENTES (numAbonado, DNI, contraseña, nombre, ap1, ap2, direccion, numTelefono, cuentaBancaria)
+	CLAVE PRIMARIA: DNI
+
+MONITOR (DNI, contraseña, nombre, ap1, ap2, numTelefono, fechaInicio, especialidad)
+	CLAVE PRIMARIA: DNI
+
+ORGANIZAR (horarioActividad, nombreActividad, nombreInstalacion, monitor, plazasRestantes)
+	CLAVE PRIMARIA: nombreActividad, horarioActividad, nombreInstalacion, 
+		monitor
+	CLAVE EXTERNA: nombreActividad, nombreInstalacion 
+		REFERENCIA ACTIVIDADES(nombre, nombreInstalacion)
+	CLAVE EXTERNA: monitor REFERENCIA MONITOR(DNI)
+
+ACTIVIDADES (nombre, plazas, campo, nombreInstalacion)
+	CLAVE PRIMARIA: nombre, nombreInstalacion
+	CLAVE EXTERNA: nombreInstalacion REFERENCIA INSTALACIONES(nombre)
+
+PARTICIPAR (horarioActividad, nombreActividad, nombreInstalacion, cliente, monitor)
+	CLAVE PRIMARIA: nombreActividad, horarioActividad, nombreInstalacion, 
+		cliente, monitor
+	CLAVE EXTERNA: nombreActividad, horarioActividad, nombreInstalacion, monitor 
+		REFERENCIA ORGANIZAR(nombreActividad, horarioActividad, nombreInstalacion, monitor)
+	CLAVE EXTERNA: cliente REFERENCIA CLIENTE(DNI)
+
+LISTAESPERA (horarioActividad, nombreActividad, nombreInstalacion, cliente, monitor, posLista)
+	CLAVE PRIMARIA: nombreActividad, horarioActividad, nombreInstalacion, 
+		cliente, monitor
+	CLAVE EXTERNA: nombreActividad, horarioActividad, nombreInstalacion, monitor 
+		REFERENCIA ORGANIZAR(nombreActividad, horarioActividad, nombreInstalacion, monitor)
+	CLAVE EXTERNA: cliente REFERENCIA CLIENTE(DNI)
+
+AVISOS (aviso, cliente)
+	CLAVE PRIMARIA: aviso, cliente
+	CLAVE EXTERNA: cliente REFERENCIA CLIENTE(DNI)
+
+INSTALACIONES (nombre, metrosCuadrados, aforo)
+	CLAVE PRIMARIA: nombre
+
+MATERIAL (nombre, materia, procedencia, dimension)
+	CLAVE PRIMARIA: nombre
+
+ENCARGAR (fechaPedido, precio, cantidad, nombreMaterial, monitor)
+	CLAVE PRIMARIA: fechaPedido, nombreMaterial, monitor
+	CLAVE EXTERNA: nombreMaterial REFERENCIA MATERIAL(nombre)
+	CLAVE EXTERNA: monitor REFERENCIA MONITOR(DNI)
